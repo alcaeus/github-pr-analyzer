@@ -1,0 +1,5 @@
+services:
+    github_api_client:
+        class: Github\Client
+        calls:
+            - [ 'authenticate', [ '%github_token%', null, 'url_token' ] ]
