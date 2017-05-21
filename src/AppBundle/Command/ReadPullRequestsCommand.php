@@ -6,6 +6,7 @@ use AppBundle\Document\PullRequest;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Github\Api\PullRequest as PullRequestApi;
 use Github\Client;
+use Github\Exception\ApiLimitExceedException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -56,17 +57,38 @@ DESC
 
         $progress = new ProgressBar($output, count($numbers));
         $progress->display();
-        foreach ($numbers as $number) {
-            $this->getDocumentManager()->persist($reader->read($username, $repository, $number));
-            $progress->advance();
+        try {
+            foreach ($numbers as $number) {
+                $this->getDocumentManager()->persist($reader->read($username, $repository, $number));
+                $progress->advance();
 
-            if ($number % 10 === 0) {
-                $this->getDocumentManager()->flush();
+                if ($number % 10 === 0) {
+                    $this->getDocumentManager()->flush();
+                }
             }
-        }
-        $progress->finish();
+            $progress->finish();
+            $this->getDocumentManager()->flush();
 
-        $this->getDocumentManager()->flush();
+            $output->writeln(['', 'All pull requests stored']);
+        } catch (ApiLimitExceedException $e) {
+            if ($input->getOption('to')) {
+                $commandOptions = "--from={$number} --to={$input->getOption('to')}";
+            } else {
+                $commandOptions = (string) $number;
+            }
+
+            $command = "{$this->getName()} {$username} {$repository} {$commandOptions}";
+
+            $message = <<<MESSAGE
+<error>API rate limit reached (%d requests per hour).</error>
+
+App fetched pull requests have been stored. The limit will be reset at %s. To continue where you left off, run the following command:
+%s
+MESSAGE;
+
+            $output->writeln(['', sprintf($message, $e->getLimit(), date('r', $e->getResetTime()), $command)]);
+            return 1;
+        }
 
         return 0;
     }
