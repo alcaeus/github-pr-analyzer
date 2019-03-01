@@ -21,7 +21,7 @@ class Review
     private $user;
 
     /**
-     * @@ODM\Field(type="string")
+     * @ODM\Field(type="string")
      */
     private $state;
 

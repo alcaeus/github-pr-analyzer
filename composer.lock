@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "df972b32c76cd00cff86440c580c3d1a",
+    "content-hash": "763d200b45616c862cc3c9fdde979036",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -798,16 +798,16 @@
         },
         {
             "name": "doctrine/mongodb-odm",
-            "version": "1.1.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "1775be6551c4456edf30b543a6d3f9cb5442bf05"
+                "reference": "b5d0c89cd63b3e05f58071c1025f7b776fcaa157"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/1775be6551c4456edf30b543a6d3f9cb5442bf05",
-                "reference": "1775be6551c4456edf30b543a6d3f9cb5442bf05",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/b5d0c89cd63b3e05f58071c1025f7b776fcaa157",
+                "reference": "b5d0c89cd63b3e05f58071c1025f7b776fcaa157",
                 "shasum": ""
             },
             "require": {
@@ -817,7 +817,7 @@
                 "doctrine/common": "~2.4",
                 "doctrine/inflector": "~1.0",
                 "doctrine/instantiator": "~1.0.1",
-                "doctrine/mongodb": "~1.3",
+                "doctrine/mongodb": "^1.4.0",
                 "php": "^5.6 || ^7.0",
                 "symfony/console": "~2.3|~3.0"
             },
@@ -826,13 +826,12 @@
                 "symfony/yaml": "~2.3|~3.0"
             },
             "suggest": {
-                "alcaeus/mongo-php-adapter": "Allows usage of PHP 7",
                 "symfony/yaml": "Enables the YAML metadata mapping driver"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -878,7 +877,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2017-05-13T18:47:53+00:00"
+            "time": "2017-05-21 09:05:21"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -3047,7 +3046,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "doctrine/mongodb-odm": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
